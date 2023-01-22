@@ -7,7 +7,7 @@ type IChooserProps = {
 
 const Chooser = ({ setState, setChoice }: IChooserProps) => {
   const choose = (choice: string) => {
-    navigator["vibrate"] && navigator.vibrate(500);
+    navigator["vibrate"] && navigator.vibrate(200);
     setChoice(choice);
     setState("roll");
   };

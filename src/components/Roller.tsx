@@ -33,7 +33,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
     setRound(round + 1);
     if (round > 3) {
       setState("choose");
-      navigator["vibrate"] && navigator.vibrate(500);
+      navigator["vibrate"] && navigator.vibrate(200);
       return;
     }
     const newResults = results.map((result) => {
@@ -56,7 +56,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
       navigator["vibrate"] && navigator.vibrate([200, 100, 200]);
       return;
     }
-    navigator["vibrate"] && navigator.vibrate(500);
+    navigator["vibrate"] && navigator.vibrate(200);
   };
   useEffect(roll, []);
   return (
