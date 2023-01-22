@@ -8,18 +8,17 @@ type IRollerProps = {
 type IDieProps = {
   choice: string;
   result: string;
-  forceFail: boolean;
 };
 
 const isEqual = (choice: string, result: string) => {
   return choice === result.slice(0, 3);
 };
 
-const Die = ({ choice, result, forceFail }: IDieProps) => {
+const Die = ({ choice, result }: IDieProps) => {
   return (
     <div
       className={`box ${result} ${
-        forceFail || !isEqual(choice, result) ? "fail" : "success"
+        !isEqual(choice, result) ? "fail" : "success"
       }`}
     />
   );
@@ -27,11 +26,11 @@ const Die = ({ choice, result, forceFail }: IDieProps) => {
 
 const Roller = ({ setState, choice }: IRollerProps) => {
   const [results, setResults] = useState(["", "", ""]);
-  const [round, setRound] = useState(1);
-  const [forceFail, setForceFail] = useState(false);
+  const [round, setRound] = useState(0);
+  const [end, setEnd] = useState(false);
   const roll = () => {
     setRound(round + 1);
-    if (round > 3 || round < 0) {
+    if (end) {
       setState("choose");
       navigator["vibrate"] && navigator.vibrate(200);
       return;
@@ -46,13 +45,8 @@ const Roller = ({ setState, choice }: IRollerProps) => {
     setResults(newResults);
     const success =
       newResults.filter((result) => isEqual(choice, result)).length === 3;
-    if (success) {
-      setRound(-(round + 1));
-      navigator["vibrate"] && navigator.vibrate([200, 100, 200]);
-      return;
-    }
-    if (round === 3 && !success) {
-      setForceFail(true);
+    if (success || (round === 2 && !success)) {
+      setEnd(true);
       navigator["vibrate"] && navigator.vibrate([200, 100, 200]);
       return;
     }
@@ -61,10 +55,10 @@ const Roller = ({ setState, choice }: IRollerProps) => {
   useEffect(roll, []);
   return (
     <div className="box-container" onClick={roll}>
-      <div className="round">{Math.abs(round) - 1}</div>
-      <Die choice={choice} result={results[0]} forceFail={forceFail} />
-      <Die choice={choice} result={results[1]} forceFail={forceFail} />
-      <Die choice={choice} result={results[2]} forceFail={forceFail} />
+      <div className="round">{round}</div>
+      <Die choice={choice} result={results[0]} />
+      <Die choice={choice} result={results[1]} />
+      <Die choice={choice} result={results[2]} />
     </div>
   );
 };
