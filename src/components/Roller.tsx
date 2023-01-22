@@ -31,7 +31,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
   const [forceFail, setForceFail] = useState(false);
   const roll = () => {
     setRound(round + 1);
-    if (round > 3) {
+    if (round > 3 || round < 0) {
       setState("choose");
       navigator["vibrate"] && navigator.vibrate(200);
       return;
@@ -47,7 +47,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
     const success =
       newResults.filter((result) => isEqual(choice, result)).length === 3;
     if (success) {
-      setRound(4);
+      setRound(-(round + 1));
       navigator["vibrate"] && navigator.vibrate([200, 100, 200]);
       return;
     }
@@ -61,6 +61,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
   useEffect(roll, []);
   return (
     <div className="box-container" onClick={roll}>
+      <div className="round">{Math.abs(round) - 1}</div>
       <Die choice={choice} result={results[0]} forceFail={forceFail} />
       <Die choice={choice} result={results[1]} forceFail={forceFail} />
       <Die choice={choice} result={results[2]} forceFail={forceFail} />

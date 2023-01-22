@@ -49,3 +49,12 @@
 .fail {
   background-color: red;
 }
+
+.round {
+  position: fixed;
+  right: 0;
+  color: white;
+  font-size: calc(var(--gap) * 2);
+  line-height: 1;
+  padding: calc(var(--gap) / 3);
+}
