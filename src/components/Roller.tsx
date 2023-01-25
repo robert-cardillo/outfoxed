@@ -1,17 +1,18 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Choice, DiceFace, getRandomDiceFace, State } from "../utils";
 
 type IRollerProps = {
-  setState: Dispatch<SetStateAction<string>>;
-  choice: string;
+  setState: Dispatch<SetStateAction<State>>;
+  choice: Choice;
 };
 
 type IDieProps = {
-  choice: string;
-  result: string;
+  choice: Choice;
+  result: DiceFace | null;
 };
 
-const isEqual = (choice: string, result: string) => {
-  return choice === result.slice(0, 3);
+const isEqual = (choice: Choice, result: DiceFace | null) => {
+  return choice === result?.slice(0, 3);
 };
 
 const Die = ({ choice, result }: IDieProps) => {
@@ -25,22 +26,22 @@ const Die = ({ choice, result }: IDieProps) => {
 };
 
 const Roller = ({ setState, choice }: IRollerProps) => {
-  const [results, setResults] = useState(["", "", ""]);
+  const [results, setResults] = useState<Array<DiceFace | null>>([
+    null,
+    null,
+    null,
+  ]);
   const [round, setRound] = useState(0);
   const [end, setEnd] = useState(false);
   const roll = () => {
     setRound(round + 1);
     if (end) {
-      setState("choose");
+      setState(State.Choose);
       navigator["vibrate"] && navigator.vibrate(200);
       return;
     }
     const newResults = results.map((result) => {
-      return isEqual(choice, result)
-        ? result
-        : ["eye", "eye", "eye", "paw", "paw", "paw2"][
-            Math.floor(Math.random() * 6)
-          ];
+      return isEqual(choice, result) ? result : getRandomDiceFace();
     });
     setResults(newResults);
     const success =

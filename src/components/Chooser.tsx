@@ -1,29 +1,30 @@
 import { Dispatch, SetStateAction } from "react";
+import { Choice, DiceFace, State } from "../utils";
 
 type IChooserProps = {
-  setState: Dispatch<SetStateAction<string>>;
-  setChoice: Dispatch<SetStateAction<string>>;
+  setState: Dispatch<SetStateAction<State>>;
+  setChoice: Dispatch<SetStateAction<Choice>>;
 };
 
 const Chooser = ({ setState, setChoice }: IChooserProps) => {
-  const choose = (choice: string) => {
+  const choose = (choice: Choice) => {
     navigator["vibrate"] && navigator.vibrate(200);
     setChoice(choice);
-    setState("roll");
+    setState(State.Roll);
   };
 
   return (
     <div className="box-container">
       <div
-        className="box paw"
+        className={`box ${DiceFace.Paw}`}
         onClick={() => {
-          choose("paw");
+          choose(Choice.Paw);
         }}
       />
       <div
-        className="box eye"
+        className={`box ${DiceFace.Eye}`}
         onClick={() => {
-          choose("eye");
+          choose(Choice.Eye);
         }}
       />
     </div>
