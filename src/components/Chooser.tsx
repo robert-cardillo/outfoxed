@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
-import { Choice, DiceFace, State } from "../utils";
+import { Choice, DiceFace, Player, State } from "../utils";
 
 type IChooserProps = {
   setState: Dispatch<SetStateAction<State>>;
   setChoice: Dispatch<SetStateAction<Choice>>;
+  player: Player;
 };
 
-const Chooser = ({ setState, setChoice }: IChooserProps) => {
+const Chooser = ({ setState, setChoice, player }: IChooserProps) => {
   const choose = (choice: Choice) => {
     navigator["vibrate"] && navigator.vibrate(200);
     setChoice(choice);
@@ -14,7 +15,7 @@ const Chooser = ({ setState, setChoice }: IChooserProps) => {
   };
 
   return (
-    <div className="box-container">
+    <div className="box-container" style={{ backgroundColor: player }}>
       <div
         className={`box ${DiceFace.Paw}`}
         onClick={() => {

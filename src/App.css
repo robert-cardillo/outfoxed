@@ -17,7 +17,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  /*padding: var(--gap);*/
 }
 
 .box {
@@ -29,6 +28,13 @@
   background-color: wheat;
   border-radius: var(--gap);
   background-size: contain;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10dvh;
 }
 
 .eye {
@@ -43,18 +49,49 @@
   background-image: url(assets/paw2.png);
 }
 
-.success {
-  background-color: green;
+.die {
+  position: relative;
 }
 
-.fail {
-  background-color: red;
+.die::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10dvh;
+  z-index: 1;
+}
+
+.success::before {
+  content: "✅";
+}
+
+.fail::before {
+  content: "❌";
+}
+
+.fox::before {
+  content: "🦊";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 90vw;
+  z-index: 2;
 }
 
 .round {
   position: fixed;
   right: 0;
-  color: white;
+  color: black;
   font-size: calc(var(--gap) * 2);
   line-height: 1;
   padding: calc(var(--gap) / 3);

@@ -1,6 +1,14 @@
 export enum State {
+  Players = "players",
   Choose = "choose",
   Roll = "roll",
+}
+
+export enum Player {
+  Yellow = "yellow",
+  Green = "green",
+  Red = "red",
+  Teal = "teal",
 }
 
 export enum Choice {

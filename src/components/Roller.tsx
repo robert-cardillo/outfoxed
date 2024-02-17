@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Choice, DiceFace, getRandomDiceFace, State } from "../utils";
+import { Choice, DiceFace, getRandomDiceFace, Player, State } from "../utils";
+import players from "./Players";
 
 type IRollerProps = {
   setState: Dispatch<SetStateAction<State>>;
   choice: Choice;
+  player: Player;
 };
 
 type IDieProps = {
@@ -18,14 +20,14 @@ const isEqual = (choice: Choice, result: DiceFace | null) => {
 const Die = ({ choice, result }: IDieProps) => {
   return (
     <div
-      className={`box ${result} ${
+      className={`box die ${result} ${
         !isEqual(choice, result) ? "fail" : "success"
       }`}
     />
   );
 };
 
-const Roller = ({ setState, choice }: IRollerProps) => {
+const Roller = ({ setState, choice, player }: IRollerProps) => {
   const [results, setResults] = useState<Array<DiceFace | null>>([
     null,
     null,
@@ -33,6 +35,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
   ]);
   const [round, setRound] = useState(0);
   const [end, setEnd] = useState(false);
+  const [fox, setFox] = useState(false);
   const roll = () => {
     setRound(round + 1);
     if (end) {
@@ -48,6 +51,7 @@ const Roller = ({ setState, choice }: IRollerProps) => {
       newResults.filter((result) => isEqual(choice, result)).length === 3;
     if (success || (round === 2 && !success)) {
       setEnd(true);
+      if (!success) setFox(true);
       navigator["vibrate"] && navigator.vibrate([200, 100, 200]);
       return;
     }
@@ -55,7 +59,11 @@ const Roller = ({ setState, choice }: IRollerProps) => {
   };
   useEffect(roll, []);
   return (
-    <div className="box-container" onClick={roll}>
+    <div
+      className={`box-container ${fox ? "fox" : ""}`}
+      style={{ backgroundColor: player }}
+      onClick={roll}
+    >
       <div className="round">{round}</div>
       <Die choice={choice} result={results[0]} />
       <Die choice={choice} result={results[1]} />
