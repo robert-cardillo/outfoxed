@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10dvh;
+  font-size: 10vh;
 }
 
 .eye {
@@ -62,7 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10dvh;
+  font-size: 10vh;
   z-index: 1;
 }
 
