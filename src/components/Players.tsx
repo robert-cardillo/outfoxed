@@ -31,7 +31,7 @@ const Players = ({ setState, setPlayers: setAppPlayers }: IPlayersProps) => {
         <div
           key={player}
           className={`box player`}
-          style={{ backgroundColor: player, width: "100%" }}
+          style={{ backgroundColor: player }}
           onClick={() => {
             choose(player);
           }}
@@ -39,11 +39,7 @@ const Players = ({ setState, setPlayers: setAppPlayers }: IPlayersProps) => {
           {players.includes(player) ? indices[players.indexOf(player)] : ""}
         </div>
       ))}
-      <div
-        className={`box player`}
-        style={{ backgroundColor: "black", width: "100%" }}
-        onClick={play}
-      >
+      <div className={`box player`} onClick={play}>
         ▶︎
       </div>
     </div>
